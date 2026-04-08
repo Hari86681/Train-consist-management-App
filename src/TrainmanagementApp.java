@@ -1,50 +1,62 @@
-import java.util.Scanner;
-
+import java.util.*;
 public class TrainmanagementApp {
-
-    public static void main(String[] args) {
-
-        System.out.println("===============================================");
-        System.out.println("UC19 - Binary Search for Bogie ID");
-        System.out.println("===============================================\n");
-
-        String[] bogieIds = {"B101", "B205", "B309", "B402", "B550"};
-
-        System.out.print("Available Bogie IDs: ");
-        for (String id : bogieIds) {
-            System.out.print(id + " ");
+    public static boolean searchBogie(String[] bogieIDs, String key) {
+        if (bogieIDs == null || bogieIDs.length == 0) {
+            throw new IllegalStateException("Cannot perform search: No bogies available in train");
         }
-
-        Scanner sc = new Scanner(System.in);
-        System.out.print("\n\nEnter Bogie ID to search: ");
-        String key = sc.nextLine();
-
-        int low = 0;
-        int high = bogieIds.length - 1;
-        boolean found = false;
-
-        while (low <= high) {
-            int mid = (low + high) / 2;
-
-            int result = key.compareTo(bogieIds[mid]);
-
-            if (result == 0) {
-                found = true;
-                break;
-            } else if (result > 0) {
-                low = mid + 1;
-            } else {
-                high = mid - 1;
+        for (String id : bogieIDs) {
+            if (id.equals(key)) {
+                return true;
             }
         }
-
-        if (found) {
-            System.out.println("\nBogie ID Found ✅");
-        } else {
-            System.out.println("\nBogie ID Not Found ❌");
+        return false;
+    }
+    public static void main(String[] args) {
+        System.out.println("\n========================================");
+        System.out.println("UC20 - Fail-Fast Search Validation");
+        System.out.println("========================================");
+        String[] empty = {};
+        try {
+            searchBogie(empty, "BG101");
+        } catch (IllegalStateException e) {
+            System.out.println("Error: " + e.getMessage());
         }
-
-        System.out.println("\nUC19 search completed...");
-        sc.close();
+        String[] bogies = {"BG101","BG205","BG309"};
+        try {
+            boolean found = searchBogie(bogies, "BG205");
+            if (found) {
+                System.out.println("Result: Bogie FOUND");
+            } else {
+                System.out.println("Result: Bogie NOT FOUND");
+            }
+        } catch (IllegalStateException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        System.out.println("\n--- UC20 TEST CASES ---");
+        boolean test1;
+        try {
+            searchBogie(new String[]{}, "BG101");
+            test1 = false;
+        } catch (IllegalStateException e) {
+            test1 = true;
+        }
+        System.out.println("testSearch_ThrowsExceptionWhenEmpty: " + (test1 ? "PASSED" : "FAILED"));
+        boolean test2;
+        try {
+            searchBogie(new String[]{"BG101","BG205"}, "BG101");
+            test2 = true;
+        } catch (Exception e) {
+            test2 = false;
+        }
+        System.out.println("testSearch_AllowsSearchWhenDataExists: " + (test2 ? "PASSED" : "FAILED"));
+        boolean test3 = searchBogie(
+                new String[]{"BG101","BG205","BG309"}, "BG205");
+        System.out.println("testSearch_BogieFoundAfterValidation: " + (test3 ? "PASSED" : "FAILED"));
+        boolean test4 = !searchBogie(
+                new String[]{"BG101","BG205","BG309"}, "BG999");
+        System.out.println("testSearch_BogieNotFoundAfterValidation: " + (test4 ? "PASSED" : "FAILED"));
+        boolean test5 = searchBogie(new String[]{"BG101"}, "BG101");
+        System.out.println("testSearch_SingleElementValidCase: " + (test5 ? "PASSED" : "FAILED"));
+        System.out.println("\nUC20 completed successfully...");
     }
 }
