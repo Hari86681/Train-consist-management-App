@@ -1,20 +1,15 @@
-import java.util.LinkedList;
+import java.util.LinkedHashSet;
 
 public class TrainmanagementApp {
     public static void main(String[] args) {
-        LinkedList<String> train = new LinkedList<>();
+        LinkedHashSet<String> bogies = new LinkedHashSet<>();
 
-        train.add("Engine");
-        train.add("Sleeper");
-        train.add("AC");
-        train.add("Cargo");
-        train.add("Guard");
+        bogies.add("Engine");
+        bogies.add("Sleeper");
+        bogies.add("Cargo");
+        bogies.add("Guard");
+        bogies.add("Sleeper");
 
-        train.add(2, "Pantry");
-
-        train.removeFirst();
-        train.removeLast();
-
-        System.out.println(train);
+        System.out.println(bogies);
     }
 }
