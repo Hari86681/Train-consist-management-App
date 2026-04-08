@@ -1,33 +1,30 @@
-import java.util.Scanner;
-import java.util.regex.Pattern;
+import java.util.*;
 
-public class TrainmanagementApp {
+public class TrainManagementApp {
 
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
+        List<String[]> bogies = new ArrayList<>();
 
-        System.out.print("Enter Train ID: ");
-        String trainId = sc.nextLine();
+        bogies.add(new String[]{"Cylindrical", "Petroleum"});
+        bogies.add(new String[]{"Box", "Grains"});
+        bogies.add(new String[]{"Cylindrical", "Petroleum"});
+        bogies.add(new String[]{"Box", "Coal"});
 
-        System.out.print("Enter Cargo Code: ");
-        String cargoCode = sc.nextLine();
+        boolean isSafe = bogies.stream().allMatch(bogie -> {
+            String type = bogie[0];
+            String cargo = bogie[1];
 
-        boolean trainValid = Pattern.matches("TRN-\\d{4}", trainId);
-        boolean cargoValid = Pattern.matches("PET-[A-Z]{2}", cargoCode);
+            if (type.equals("Cylindrical")) {
+                return cargo.equals("Petroleum");
+            }
+            return true;
+        });
 
-        if (trainValid) {
-            System.out.println("Valid Train ID");
+        if (isSafe) {
+            System.out.println("Train is Safety Compliant");
         } else {
-            System.out.println("Invalid Train ID (Format: TRN-1234)");
+            System.out.println("Train is NOT Safety Compliant");
         }
-
-        if (cargoValid) {
-            System.out.println("Valid Cargo Code");
-        } else {
-            System.out.println("Invalid Cargo Code (Format: PET-AB)");
-        }
-
-        sc.close();
     }
 }
