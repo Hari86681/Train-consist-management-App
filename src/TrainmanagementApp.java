@@ -1,5 +1,4 @@
 import java.util.*;
-import java.util.stream.*;
 
 class Bogie {
     String name;
@@ -13,21 +12,17 @@ class Bogie {
 
 public class TrainmanagementApp {
     public static void main(String[] args) {
-        List<Bogie> list = new ArrayList<>();
+        List<Bogie> bogies = new ArrayList<>();
 
-        list.add(new Bogie("Sleeper", 72));
-        list.add(new Bogie("Sleeper", 80));
-        list.add(new Bogie("AC Chair", 60));
-        list.add(new Bogie("First Class", 24));
+        bogies.add(new Bogie("B1", 72));
+        bogies.add(new Bogie("B2", 64));
+        bogies.add(new Bogie("B3", 80));
+        bogies.add(new Bogie("B4", 60));
 
-        Map<String, List<Bogie>> grouped = list.stream()
-                .collect(Collectors.groupingBy(b -> b.name));
+        int totalSeats = bogies.stream()
+                .map(b -> b.capacity)
+                .reduce(0, Integer::sum);
 
-        for (Map.Entry<String, List<Bogie>> entry : grouped.entrySet()) {
-            System.out.println(entry.getKey());
-            for (Bogie b : entry.getValue()) {
-                System.out.println("  " + b.name + " -> " + b.capacity);
-            }
-        }
+        System.out.println("Total Seating Capacity: " + totalSeats);
     }
 }
