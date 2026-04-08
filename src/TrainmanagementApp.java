@@ -1,15 +1,20 @@
-import java.util.HashSet;
+import java.util.LinkedList;
 
 public class TrainmanagementApp {
     public static void main(String[] args) {
-        HashSet<String> bogieIDs = new HashSet<>();
+        LinkedList<String> train = new LinkedList<>();
 
-        bogieIDs.add("B101");
-        bogieIDs.add("B102");
-        bogieIDs.add("B103");
-        bogieIDs.add("B101");
-        bogieIDs.add("B102");
+        train.add("Engine");
+        train.add("Sleeper");
+        train.add("AC");
+        train.add("Cargo");
+        train.add("Guard");
 
-        System.out.println(bogieIDs);
+        train.add(2, "Pantry");
+
+        train.removeFirst();
+        train.removeLast();
+
+        System.out.println(train);
     }
 }
